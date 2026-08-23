@@ -1,0 +1,18 @@
+{
+  "name": "kleenkicks",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=@kleenkicks/web",
+    "dev:admin": "npm run dev --workspace=@kleenkicks/admin",
+    "build": "npm run build --workspace=@kleenkicks/web && npm run build --workspace=@kleenkicks/admin",
+    "lint": "npm run lint --workspace=@kleenkicks/web && npm run lint --workspace=@kleenkicks/admin",
+    "db:generate": "npm run db:generate --workspace=@kleenkicks/db",
+    "db:push": "npm run db:push --workspace=@kleenkicks/db",
+    "db:studio": "npm run db:studio --workspace=@kleenkicks/db"
+  }
+}
