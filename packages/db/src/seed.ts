@@ -1,40 +1,7 @@
-export type ProductCategory =
-  | "Cleaning Kits"
-  | "Solutions & Sprays"
-  | "Protection & Care"
-  | "Tools & Brushes"
-  | "Accessories";
+import { getDb } from "./client";
+import { products, type NewProduct } from "./schema";
 
-export type ProductIconType = "kit" | "spray" | "brush" | "cloth" | "tree" | "laces";
-
-export type ProductBadge = "Best Seller" | "New";
-
-export interface ProductVariant {
-  label: string;
-  swatch: string;
-}
-
-export interface Product {
-  id: string;
-  name: string;
-  category: ProductCategory;
-  subtitle: string;
-  price: number;
-  compareAtPrice?: number;
-  badge?: ProductBadge;
-  icon: ProductIconType;
-  variants?: ProductVariant[];
-}
-
-export const CATEGORIES: ProductCategory[] = [
-  "Cleaning Kits",
-  "Solutions & Sprays",
-  "Protection & Care",
-  "Tools & Brushes",
-  "Accessories",
-];
-
-export const PRODUCTS: Product[] = [
+const SEED_PRODUCTS: NewProduct[] = [
   {
     id: "signature-clean-kit",
     name: "Signature Clean Kit",
@@ -43,6 +10,7 @@ export const PRODUCTS: Product[] = [
     price: 450,
     badge: "Best Seller",
     icon: "kit",
+    sortOrder: 1,
   },
   {
     id: "travel-clean-kit",
@@ -51,6 +19,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Compact clean-on-the-go essentials",
     price: 220,
     icon: "kit",
+    sortOrder: 2,
   },
   {
     id: "pro-deep-clean-solution",
@@ -59,6 +28,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Our studio-grade cleaning solution, 250ml",
     price: 180,
     icon: "spray",
+    sortOrder: 3,
   },
   {
     id: "suede-nubuck-cleaner",
@@ -67,6 +37,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Dry-clean formula for delicate materials",
     price: 160,
     icon: "spray",
+    sortOrder: 4,
   },
   {
     id: "sole-whitening-formula",
@@ -76,6 +47,7 @@ export const PRODUCTS: Product[] = [
     price: 150,
     compareAtPrice: 190,
     icon: "spray",
+    sortOrder: 5,
   },
   {
     id: "protective-repellent-spray",
@@ -88,6 +60,7 @@ export const PRODUCTS: Product[] = [
       { label: "Neutral", swatch: "#f5f5f5" },
       { label: "Fresh Scent", swatch: "#0a7281" },
     ],
+    sortOrder: 6,
   },
   {
     id: "odor-eliminator-spray",
@@ -101,6 +74,7 @@ export const PRODUCTS: Product[] = [
       { label: "Neutral", swatch: "#f5f5f5" },
       { label: "Fresh Scent", swatch: "#0a7281" },
     ],
+    sortOrder: 7,
   },
   {
     id: "crease-protectors",
@@ -109,6 +83,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Keeps the toe box crease-free, per pair",
     price: 150,
     icon: "cloth",
+    sortOrder: 8,
   },
   {
     id: "premium-brush-set",
@@ -117,6 +92,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Fine, medium & sole bristle trio, 3-piece",
     price: 120,
     icon: "brush",
+    sortOrder: 9,
   },
   {
     id: "microfiber-cloth-pack",
@@ -125,6 +101,7 @@ export const PRODUCTS: Product[] = [
     subtitle: "Lint-free finishing cloths, 5-pack",
     price: 90,
     icon: "cloth",
+    sortOrder: 10,
   },
   {
     id: "cedar-shoe-trees",
@@ -134,6 +111,7 @@ export const PRODUCTS: Product[] = [
     price: 220,
     badge: "New",
     icon: "tree",
+    sortOrder: 11,
   },
   {
     id: "no-tie-elastic-laces",
@@ -147,9 +125,21 @@ export const PRODUCTS: Product[] = [
       { label: "White", swatch: "#ffffff" },
       { label: "Red", swatch: "#d30005" },
     ],
+    sortOrder: 12,
   },
 ];
 
-export function formatPrice(value: number) {
-  return `R${value.toFixed(0)}`;
+async function main() {
+  const db = getDb();
+  await db
+    .insert(products)
+    .values(SEED_PRODUCTS)
+    .onConflictDoNothing({ target: products.id });
+  console.log(`Seeded ${SEED_PRODUCTS.length} products (existing ids skipped).`);
+  process.exit(0);
 }
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

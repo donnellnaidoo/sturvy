@@ -15,7 +15,7 @@ export function SneakerViewer({ className }: { className?: string }) {
         <model-viewer
           src="/models/nike-air-force-1-white.glb"
           ios-src="/models/nike-air-force-1-white.usdz"
-          alt="Interactive 3D model of a white Nike Air Force 1 sneaker, freshly restored by KleenKicks"
+          alt="Interactive 3D model of a white Nike Air Force 1 sneaker, freshly restored by STURVY"
           ar
           ar-modes="webxr scene-viewer quick-look"
           camera-controls

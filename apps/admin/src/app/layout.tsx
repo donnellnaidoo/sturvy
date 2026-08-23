@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "KleenKicks Admin",
-  description: "Order management for KleenKicks.",
+  title: "STURVY Admin",
+  description: "Order management for STURVY.",
   robots: { index: false, follow: false },
 };
 

@@ -105,7 +105,7 @@ export function ScrollSplitHero() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a
-                href={whatsappHref("Hi KleenKicks! I'd like to book a sneaker clean.")}
+                href={whatsappHref("Hi STURVY! I'd like to book a sneaker clean.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-12 items-center rounded-full bg-ink px-8 text-base font-medium text-on-ink"

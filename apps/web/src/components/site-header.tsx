@@ -21,7 +21,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 bg-canvas">
       <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6">
         <Link href="/" className="font-display text-2xl tracking-wide text-ink">
-          KLEEN<span className="text-sale">KICKS</span>
+          ST<span className="text-sale">URVY</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
@@ -38,7 +38,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <a
-            href={whatsappHref("Hi KleenKicks! I'd like to book a sneaker clean.")}
+            href={whatsappHref("Hi STURVY! I'd like to book a sneaker clean.")}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden h-11 items-center rounded-full bg-ink px-6 text-sm font-medium text-on-ink sm:flex"
@@ -72,7 +72,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <a
-            href={whatsappHref("Hi KleenKicks! I'd like to book a sneaker clean.")}
+            href={whatsappHref("Hi STURVY! I'd like to book a sneaker clean.")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-2 flex h-12 items-center justify-center rounded-full bg-ink text-sm font-medium text-on-ink"

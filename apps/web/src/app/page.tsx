@@ -11,7 +11,7 @@ const PROCESS_STEPS = [
   {
     n: "02",
     title: "Deep Clean",
-    desc: "We use our professional-grade KleenKicks cleaning solution with specialist brushes and equipment to remove dirt, grime, and everyday stains from the upper, sole, and outsole.",
+    desc: "We use our professional-grade STURVY cleaning solution with specialist brushes and equipment to remove dirt, grime, and everyday stains from the upper, sole, and outsole.",
   },
   {
     n: "03",
@@ -132,7 +132,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "My suede Timbs needed real care, not just a wipe down. KleenKicks knew exactly what they were doing.",
+      "My suede Timbs needed real care, not just a wipe down. STURVY knew exactly what they were doing.",
     name: "Sipho N.",
     area: "Boksburg",
   },
@@ -323,7 +323,7 @@ export default function Home() {
               </ul>
               <a
                 href={whatsappHref(
-                  `Hi KleenKicks! I'd like to book the ${plan.name} service.`
+                  `Hi STURVY! I'd like to book the ${plan.name} service.`
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -371,7 +371,7 @@ export default function Home() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <a
-              href={whatsappHref("Hi KleenKicks! I'd like to book a sneaker clean.")}
+              href={whatsappHref("Hi STURVY! I'd like to book a sneaker clean.")}
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-12 items-center gap-2 rounded-full bg-whatsapp px-8 text-base font-medium text-on-ink"

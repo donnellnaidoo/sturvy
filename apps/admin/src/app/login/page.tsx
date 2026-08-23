@@ -33,7 +33,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-soft-cloud px-6">
       <form onSubmit={handleSubmit} className="w-full max-w-sm bg-canvas p-8">
         <h1 className="font-display text-3xl uppercase tracking-wide text-ink">
-          KleenKicks Admin
+          ST<span className="text-sale">URVY</span> Admin
         </h1>
         <p className="mt-2 text-sm text-mute">Sign in to manage orders.</p>
 

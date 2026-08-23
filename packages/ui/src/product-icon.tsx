@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { ProductIconType } from "@/lib/products";
+import type { ProductIconType } from "@kleenkicks/db";
 
 const PATHS: Record<ProductIconType, ReactNode> = {
   kit: (
@@ -47,6 +47,20 @@ const PATHS: Record<ProductIconType, ReactNode> = {
     </>
   ),
 };
+
+export const PRODUCT_ICON_LABELS: Record<ProductIconType, string> = {
+  kit: "Kit / Box",
+  spray: "Spray Bottle",
+  brush: "Brush",
+  cloth: "Cloth",
+  tree: "Shoe Tree",
+  laces: "Laces",
+};
+
+// Re-exported here (rather than imported from @kleenkicks/db) so client
+// components can get the list of icon types without pulling in the DB
+// package's runtime (which bundles the `postgres` driver).
+export const PRODUCT_ICON_TYPES = Object.keys(PRODUCT_ICON_LABELS) as ProductIconType[];
 
 export function ProductIcon({
   type,

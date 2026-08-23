@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ORDER_STATUSES, type OrderStatus } from "@kleenkicks/db";
+import { ORDER_STATUSES, type OrderStatus } from "@kleenkicks/db/schema";
 import { updateOrderStatusAction } from "@/actions/update-order-status";
 
 export function StatusActions({

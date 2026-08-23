@@ -1,6 +1,6 @@
-// Update these with KleenKicks' real contact details before launch.
+// Update these with STURVY's real contact details before launch.
 export const siteConfig = {
-  name: "KleenKicks",
+  name: "STURVY",
   tagline: "Premium sneaker cleaning & restoration",
   city: "Benoni",
   region: "Ekurhuleni, Gauteng",
@@ -14,15 +14,15 @@ export const siteConfig = {
     "Sandton & Johannesburg CBD (courier drop-off)",
   ],
   phoneDisplay: "072 000 0000",
-  whatsappNumber: "27720000000",
-  email: "hello@kleenkicks.co.za",
-  instagram: "https://instagram.com/kleenkicks_za",
-  tiktok: "https://tiktok.com/@kleenkicks_za",
+  whatsappNumber: "27828985449",
+  email: "hello@sturvy.co.za",
+  instagram: "https://instagram.com/sturvy_za",
+  tiktok: "https://tiktok.com/@sturvy_za",
   address: "Benoni, Ekurhuleni, 1501, Gauteng",
 };
 
 export function whatsappHref(message: string) {
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-    message
+    message,
   )}`;
 }

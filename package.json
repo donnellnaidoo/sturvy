@@ -2,17 +2,23 @@
   "name": "kleenkicks",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "npm@11.12.1",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev:web": "npm run dev --workspace=@kleenkicks/web",
-    "dev:admin": "npm run dev --workspace=@kleenkicks/admin",
-    "build": "npm run build --workspace=@kleenkicks/web && npm run build --workspace=@kleenkicks/admin",
-    "lint": "npm run lint --workspace=@kleenkicks/web && npm run lint --workspace=@kleenkicks/admin",
-    "db:generate": "npm run db:generate --workspace=@kleenkicks/db",
-    "db:push": "npm run db:push --workspace=@kleenkicks/db",
-    "db:studio": "npm run db:studio --workspace=@kleenkicks/db"
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@kleenkicks/web",
+    "dev:admin": "turbo run dev --filter=@kleenkicks/admin",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:studio": "turbo run db:studio",
+    "db:seed": "turbo run db:seed"
+  },
+  "devDependencies": {
+    "turbo": "^2.10.11"
   }
 }

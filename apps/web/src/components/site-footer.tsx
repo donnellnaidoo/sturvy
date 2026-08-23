@@ -37,7 +37,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="font-display text-2xl tracking-wide text-ink">
-              KLEENKICKS
+              ST<span className="text-sale">URVY</span>
             </Link>
             <p className="mt-3 text-sm text-mute">
               {siteConfig.tagline}, based in {siteConfig.city}.
@@ -79,7 +79,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 border-t border-hairline-soft pt-6 text-[11px] text-mute">
-          © {new Date().getFullYear()} KleenKicks. All rights reserved. {siteConfig.address}.
+          © {new Date().getFullYear()} STURVY. All rights reserved. {siteConfig.address}.
         </div>
       </div>
     </footer>

@@ -16,9 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "KleenKicks | Premium Sneaker Cleaning in Benoni, Johannesburg",
+  title: "STURVY | Premium Sneaker Cleaning in Benoni, Johannesburg",
   description:
-    "KleenKicks is Benoni's premium sneaker cleaning and restoration studio, serving Ekurhuleni and greater Johannesburg. Deep cleans, sole restoration, and crease-free finishes with free pickup and drop-off.",
+    "STURVY is Benoni's premium sneaker cleaning and restoration studio, serving Ekurhuleni and greater Johannesburg. Deep cleans, sole restoration, and crease-free finishes with free pickup and drop-off.",
 };
 
 export default function RootLayout({

@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
+import { listActiveProducts } from "@kleenkicks/db";
 import { ProductCatalog } from "@/components/shop/product-catalog";
 
 export const metadata: Metadata = {
-  title: "Shop | KleenKicks Care Products",
+  title: "Shop | STURVY Care Products",
   description:
-    "Shop KleenKicks studio-grade sneaker care: cleaning kits, solutions, protective sprays, brushes, and accessories. Order via WhatsApp for pickup or delivery across Ekurhuleni.",
+    "Shop STURVY studio-grade sneaker care: cleaning kits, solutions, protective sprays, brushes, and accessories. Order via WhatsApp for pickup or delivery across Ekurhuleni.",
 };
 
-export default function ProductsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ProductsPage() {
+  let products: Awaited<ReturnType<typeof listActiveProducts>> = [];
+  try {
+    products = await listActiveProducts();
+  } catch (err) {
+    console.error("Failed to load products", err);
+  }
+
   return (
     <>
       <section className="bg-soft-cloud px-6 py-16 sm:py-20">
@@ -24,7 +34,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <ProductCatalog />
+      <ProductCatalog products={products} />
     </>
   );
 }

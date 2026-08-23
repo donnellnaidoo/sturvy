@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { listOrders } from "@kleenkicks/db";
-import { LogoutButton } from "@/components/logout-button";
+import { AdminNav } from "@/components/admin-nav";
 
 export const dynamic = "force-dynamic";
 
@@ -22,12 +22,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-3xl uppercase tracking-wide text-ink">
-          Orders
-        </h1>
-        <LogoutButton />
-      </div>
+      <AdminNav active="Orders" />
 
       {error ? (
         <p className="mt-8 text-sm text-mute">
