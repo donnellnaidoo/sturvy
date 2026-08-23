@@ -67,8 +67,11 @@ export function ScrollSplitHero() {
   }, []);
 
   return (
-    <section ref={trackRef} className="relative h-[130vh] sm:h-[170vh] lg:h-[240vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-soft-cloud">
+    <section
+      ref={trackRef}
+      className="relative h-[130vh] sm:h-[170vh] lg:h-[240vh] [@media(pointer:coarse)]:h-auto"
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-soft-cloud [@media(pointer:coarse)]:relative [@media(pointer:coarse)]:h-[100dvh]">
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
