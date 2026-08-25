@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { whatsappHref } from "@/lib/site-config";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export function ScrollSplitHero() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -28,41 +34,32 @@ export function ScrollSplitHero() {
       return;
     }
 
-    let rafId = 0;
-    let ticking = false;
-
-    const scrub = () => {
-      ticking = false;
-      const duration = video.duration;
-      if (!duration) return;
-      const rect = track.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const scrolled = -rect.top;
-      const progress = Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0));
-      video.currentTime = progress * duration;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        rafId = requestAnimationFrame(scrub);
-      }
-    };
-
     video.pause();
+
+    let tween: gsap.core.Tween | undefined;
+    const start = () => {
+      tween = gsap.to(video, {
+        currentTime: video.duration,
+        ease: "none",
+        scrollTrigger: {
+          trigger: track,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.8,
+        },
+      });
+    };
+
     if (video.readyState >= 1) {
-      scrub();
+      start();
     } else {
-      video.addEventListener("loadedmetadata", scrub, { once: true });
+      video.addEventListener("loadedmetadata", start, { once: true });
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      cancelAnimationFrame(rafId);
+      video.removeEventListener("loadedmetadata", start);
+      tween?.scrollTrigger?.kill();
+      tween?.kill();
     };
   }, []);
 
@@ -75,7 +72,7 @@ export function ScrollSplitHero() {
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          src="/videos/kleenkicks-hero-split.mp4"
+          src="/videos/interpolated-2x-kleenkicks-hero-split.mp4"
           poster="/videos/kleenkicks-hero-poster.jpg"
           muted
           playsInline
