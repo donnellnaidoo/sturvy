@@ -4,6 +4,12 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageLoader } from "@/components/page-loader";
+import { StructuredData } from "@/components/structured-data";
+import { siteConfig } from "@/lib/site-config";
+import { localBusinessSchema, websiteSchema } from "@/lib/schema";
+
+const SITE_DESCRIPTION =
+  "STURVY is Benoni's premium sneaker cleaning and restoration studio, serving Ekurhuleni and greater Johannesburg. Deep cleans, sole restoration, and crease-free finishes with free pickup and drop-off — plus studio-grade sneaker care products to shop online.";
 
 const bebas = Bebas_Neue({
   variable: "--font-bebas",
@@ -17,9 +23,37 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "STURVY | Premium Sneaker Cleaning in Benoni, Johannesburg",
-  description:
-    "STURVY is Benoni's premium sneaker cleaning and restoration studio, serving Ekurhuleni and greater Johannesburg. Deep cleans, sole restoration, and crease-free finishes with free pickup and drop-off.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: "STURVY | Premium Sneaker Cleaning in Benoni, Johannesburg",
+    template: "%s | STURVY",
+  },
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    url: siteConfig.url,
+    locale: "en_ZA",
+    title: "STURVY | Premium Sneaker Cleaning & Sneaker Care in South Africa",
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/videos/kleenkicks-hero-poster.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "A freshly restored sneaker cleaned by STURVY",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "STURVY | Premium Sneaker Cleaning & Sneaker Care in South Africa",
+    description: SITE_DESCRIPTION,
+    images: ["/videos/kleenkicks-hero-poster.jpg"],
+  },
   icons: {
     icon: [
       { url: "/brand-assets/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -46,6 +80,7 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-canvas text-ink antialiased"
         suppressHydrationWarning
       >
+        <StructuredData data={[localBusinessSchema(), websiteSchema()]} />
         <PageLoader />
         <SiteHeader />
         <main className="flex-1">{children}</main>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SneakerViewer } from "@/components/sneaker-viewer";
 import { ScrollSplitHero } from "@/components/scroll-split-hero";
 import { siteConfig, whatsappHref } from "@/lib/site-config";
@@ -257,6 +258,13 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <p className="mt-6 text-sm text-mute">
+          Want to look after your sneakers between studio visits?{" "}
+          <Link href="/products" className="font-medium text-ink underline underline-offset-4">
+            Shop our sneaker cleaning products
+          </Link>
+          .
+        </p>
       </section>
 
       {/* How it works */}
@@ -384,7 +392,14 @@ export default function Home() {
             >
               {siteConfig.email}
             </a>
+            <a
+              href={`tel:${siteConfig.phoneHref}`}
+              className="flex h-12 items-center rounded-full bg-canvas px-8 text-base font-medium text-ink"
+            >
+              {siteConfig.phoneDisplay}
+            </a>
           </div>
+          <p className="mt-6 text-sm text-stone">{siteConfig.hoursDisplay}</p>
         </div>
       </section>
     </>

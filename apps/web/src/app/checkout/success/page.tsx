@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getOrderWithItems } from "@kleenkicks/db";
 import { formatPrice } from "@/lib/format-price";
@@ -5,6 +6,11 @@ import { RefreshIfUnpaid } from "./refresh-if-unpaid";
 import { ClearCartOnPaid } from "./clear-cart-on-paid";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Order Confirmation",
+  robots: { index: false, follow: false },
+};
 
 export default async function CheckoutSuccessPage({
   searchParams,

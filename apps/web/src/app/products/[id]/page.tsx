@@ -4,7 +4,10 @@ import { notFound } from "next/navigation";
 import { getProduct } from "@kleenkicks/db";
 import { ProductGallery } from "@/components/shop/product-gallery";
 import { ProductPurchasePanel } from "@/components/shop/product-purchase-panel";
+import { StructuredData } from "@/components/structured-data";
+import { breadcrumbSchema, productSchema } from "@/lib/schema";
 import { formatPrice } from "@/lib/format-price";
+import { siteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
@@ -16,9 +19,24 @@ export async function generateMetadata({
   const { id } = await params;
   const product = await getProduct(id);
   if (!product) return {};
+  const url = `${siteConfig.url}/products/${product.id}`;
   return {
-    title: `${product.name} | STURVY Shop`,
+    title: product.name,
     description: product.subtitle,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: product.name,
+      description: product.subtitle,
+      url,
+      images: product.images.length ? product.images : undefined,
+    },
+    twitter: {
+      title: product.name,
+      description: product.subtitle,
+      images: product.images.length ? product.images : undefined,
+    },
   };
 }
 
@@ -38,6 +56,16 @@ export default async function ProductDetailPage({
 
   return (
     <div className="mx-auto max-w-[1440px] px-6 py-10">
+      <StructuredData
+        data={[
+          productSchema(product),
+          breadcrumbSchema([
+            { name: "Home", url: siteConfig.url },
+            { name: "Shop", url: `${siteConfig.url}/products` },
+            { name: product.name, url: `${siteConfig.url}/products/${product.id}` },
+          ]),
+        ]}
+      />
       <p className="text-xs text-mute sm:text-sm">
         <Link href="/products" className="hover:text-ink">
           Shop

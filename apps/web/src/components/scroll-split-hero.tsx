@@ -101,6 +101,7 @@ export function ScrollSplitHero() {
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-soft-cloud [@media(pointer:coarse)]:relative [@media(pointer:coarse)]:h-[100dvh]">
         <video
           ref={videoRef}
+          aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
           poster="/videos/kleenkicks-hero-poster.jpg"
           muted
