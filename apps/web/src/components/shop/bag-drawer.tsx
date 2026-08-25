@@ -13,6 +13,9 @@ export function BagDrawer({
   onUpdateQty,
   onCheckout,
   checkingOut,
+  onPayWithCard,
+  payingWithCard,
+  cardError,
 }: {
   open: boolean;
   onClose: () => void;
@@ -21,6 +24,9 @@ export function BagDrawer({
   onUpdateQty: (id: string, qty: number) => void;
   onCheckout: () => void;
   checkingOut: boolean;
+  onPayWithCard: () => void;
+  payingWithCard: boolean;
+  cardError: string | null;
 }) {
   if (!open) return null;
 
@@ -104,21 +110,27 @@ export function BagDrawer({
               <span>Subtotal</span>
               <span>{formatPrice(subtotal)}</span>
             </div>
-            <p className="mt-1 text-xs text-mute">
-              Final total confirmed via WhatsApp.
-            </p>
+            {cardError && <p className="mt-2 text-sm text-sale">{cardError}</p>}
+            <button
+              type="button"
+              onClick={onPayWithCard}
+              disabled={payingWithCard}
+              className="mt-4 flex h-12 w-full items-center justify-center rounded-full bg-ink text-sm font-medium text-on-ink disabled:opacity-50"
+            >
+              {payingWithCard ? "Redirecting…" : "Pay Now with Card"}
+            </button>
             <button
               type="button"
               onClick={onCheckout}
               disabled={checkingOut}
-              className="mt-4 flex h-12 w-full items-center justify-center rounded-full bg-ink text-sm font-medium text-on-ink disabled:opacity-50"
+              className="mt-3 flex h-12 w-full items-center justify-center rounded-full bg-soft-cloud text-sm font-medium text-ink disabled:opacity-50"
             >
               {checkingOut ? "Preparing order…" : "Checkout via WhatsApp"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="mt-3 flex h-12 w-full items-center justify-center rounded-full bg-soft-cloud text-sm font-medium text-ink"
+              className="mt-3 flex h-10 w-full items-center justify-center text-sm font-medium text-mute underline decoration-1 underline-offset-4"
             >
               Continue Shopping
             </button>

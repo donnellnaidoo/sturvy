@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import type { Product, ProductIconType } from "@kleenkicks/db";
 import { whatsappHref } from "./site-config";
 import { formatPrice } from "./format-price";
@@ -68,6 +68,14 @@ function getServerSnapshot(): CartState {
 export function useCart() {
   const cart = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [checkingOut, setCheckingOut] = useState(false);
+  const [payingWithCard, setPayingWithCard] = useState(false);
+  const [cardError, setCardError] = useState<string | null>(null);
+
+  // Stable reference (no dependencies) — safe to put in a useEffect's
+  // dependency array without re-triggering every render.
+  const clearCart = useCallback(() => {
+    commit(EMPTY_CART);
+  }, []);
 
   function addToBag(product: Product, qty = 1) {
     const existing = cache[product.id];
@@ -131,8 +139,47 @@ export function useCart() {
 
     window.open(whatsappHref(message), "_blank", "noopener,noreferrer");
     setCheckingOut(false);
-    commit(EMPTY_CART);
+    clearCart();
   }
 
-  return { items, totalCount, subtotal, checkingOut, addToBag, updateQty, checkout };
+  // Unlike WhatsApp checkout, a card payment can genuinely bounce the
+  // customer back here (they cancel, or the card is declined) — so the bag
+  // stays intact until the success page confirms payment actually went
+  // through, rather than clearing the moment they click "Pay".
+  async function payWithCard() {
+    setPayingWithCard(true);
+    setCardError(null);
+
+    try {
+      const res = await fetch("/api/checkout/yoco", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((item) => ({ productId: item.id, quantity: item.qty })),
+        }),
+      });
+      const data = (await res.json()) as { redirectUrl?: string; error?: string };
+      if (!res.ok || !data.redirectUrl) {
+        throw new Error(data.error ?? "Could not start card payment");
+      }
+      window.location.href = data.redirectUrl;
+    } catch (err) {
+      setCardError(err instanceof Error ? err.message : "Could not start card payment");
+      setPayingWithCard(false);
+    }
+  }
+
+  return {
+    items,
+    totalCount,
+    subtotal,
+    checkingOut,
+    addToBag,
+    updateQty,
+    checkout,
+    payWithCard,
+    payingWithCard,
+    cardError,
+    clearCart,
+  };
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@kleenkicks/brand",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "generate-icons": "node scripts/generate-icons.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.34.5",
+    "typescript": "^5"
+  }
+}

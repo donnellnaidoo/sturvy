@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Wordmark } from "@kleenkicks/brand";
 import { whatsappHref } from "@/lib/site-config";
 
 const NAV_LINKS = [
@@ -21,7 +22,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 bg-canvas">
       <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between px-6">
         <Link href="/" className="font-display text-2xl tracking-wide text-ink">
-          ST<span className="text-sale">URVY</span>
+          <Wordmark />
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex xl:gap-8">

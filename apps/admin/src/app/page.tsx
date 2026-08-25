@@ -45,7 +45,22 @@ export default async function DashboardPage() {
                   </p>
                   <p className="mt-1 text-xs text-mute">
                     {new Date(order.createdAt).toLocaleString()} ·{" "}
-                    <span className="capitalize">{order.status}</span>
+                    <span className="capitalize">{order.status}</span> ·{" "}
+                    <span
+                      className={
+                        order.paymentStatus === "paid"
+                          ? "font-medium text-success"
+                          : order.paymentStatus === "failed"
+                            ? "font-medium text-sale"
+                            : "capitalize"
+                      }
+                    >
+                      {order.paymentStatus === "paid"
+                        ? "Paid"
+                        : order.paymentStatus === "failed"
+                          ? "Payment Failed"
+                          : "Unpaid"}
+                    </span>
                   </p>
                 </div>
                 <p className="text-sm font-medium text-ink">

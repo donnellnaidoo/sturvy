@@ -31,7 +31,23 @@ export default async function OrderDetailPage({
         <p className="text-sm font-medium text-ink">{formatPrice(order.subtotal)}</p>
       </div>
       <p className="mt-1 text-sm text-mute">
-        {new Date(order.createdAt).toLocaleString()}
+        {new Date(order.createdAt).toLocaleString()} ·{" "}
+        <span
+          className={
+            order.paymentStatus === "paid"
+              ? "font-medium text-success"
+              : order.paymentStatus === "failed"
+                ? "font-medium text-sale"
+                : ""
+          }
+        >
+          {order.paymentStatus === "paid"
+            ? "Paid"
+            : order.paymentStatus === "failed"
+              ? "Payment Failed"
+              : "Unpaid"}
+        </span>
+        {order.yocoCheckoutId && <> · Paid via Yoco</>}
       </p>
 
       <div className="mt-6">

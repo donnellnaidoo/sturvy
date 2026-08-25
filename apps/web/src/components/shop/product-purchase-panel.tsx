@@ -10,8 +10,18 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
   const [bagOpen, setBagOpen] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const { items, totalCount, subtotal, addToBag, updateQty, checkout, checkingOut } =
-    useCart();
+  const {
+    items,
+    totalCount,
+    subtotal,
+    addToBag,
+    updateQty,
+    checkout,
+    checkingOut,
+    payWithCard,
+    payingWithCard,
+    cardError,
+  } = useCart();
 
   function handleAdd() {
     addToBag(product, qty);
@@ -97,6 +107,9 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
         onUpdateQty={updateQty}
         onCheckout={handleCheckout}
         checkingOut={checkingOut}
+        onPayWithCard={payWithCard}
+        payingWithCard={payingWithCard}
+        cardError={cardError}
       />
     </>
   );

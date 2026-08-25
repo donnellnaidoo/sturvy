@@ -9,6 +9,10 @@ export const ORDER_STATUSES = [
 
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
+export const PAYMENT_STATUSES = ["unpaid", "paid", "failed"] as const;
+
+export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
+
 export const PRODUCT_ICON_TYPES = [
   "kit",
   "spray",
@@ -55,6 +59,12 @@ export const orders = pgTable("orders", {
   id: uuid("id").defaultRandom().primaryKey(),
   status: text("status", { enum: ORDER_STATUSES }).notNull().default("pending"),
   subtotal: integer("subtotal").notNull(),
+  paymentStatus: text("payment_status", { enum: PAYMENT_STATUSES })
+    .notNull()
+    .default("unpaid"),
+  // Set once a Yoco checkout session is created for this order — null for
+  // orders placed via the WhatsApp-only flow.
+  yocoCheckoutId: text("yoco_checkout_id"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 

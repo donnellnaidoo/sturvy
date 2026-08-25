@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Wordmark } from "@kleenkicks/brand";
 import { siteConfig } from "@/lib/site-config";
 
 const COLUMNS = [
@@ -37,7 +38,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="font-display text-2xl tracking-wide text-ink">
-              ST<span className="text-sale">URVY</span>
+              <Wordmark />
             </Link>
             <p className="mt-3 text-sm text-mute">
               {siteConfig.tagline}, based in {siteConfig.city}.

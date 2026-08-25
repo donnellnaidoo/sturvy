@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { getDb } from "./client";
-import { orderItems, orders, type OrderStatus } from "./schema";
+import { orderItems, orders, type OrderStatus, type PaymentStatus } from "./schema";
 
 export interface NewOrderItemInput {
   productId: string;
@@ -46,4 +46,14 @@ export async function getOrderWithItems(orderId: string) {
 export async function updateOrderStatus(orderId: string, status: OrderStatus) {
   const db = getDb();
   await db.update(orders).set({ status }).where(eq(orders.id, orderId));
+}
+
+export async function attachYocoCheckout(orderId: string, yocoCheckoutId: string) {
+  const db = getDb();
+  await db.update(orders).set({ yocoCheckoutId }).where(eq(orders.id, orderId));
+}
+
+export async function updateOrderPaymentStatus(orderId: string, paymentStatus: PaymentStatus) {
+  const db = getDb();
+  await db.update(orders).set({ paymentStatus }).where(eq(orders.id, orderId));
 }

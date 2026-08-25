@@ -126,8 +126,18 @@ export function ProductCatalog({ products }: { products: Product[] }) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const [sort, setSort] = useState<SortKey>("featured");
   const [bagOpen, setBagOpen] = useState(false);
-  const { items, totalCount, subtotal, addToBag, updateQty, checkout, checkingOut } =
-    useCart();
+  const {
+    items,
+    totalCount,
+    subtotal,
+    addToBag,
+    updateQty,
+    checkout,
+    checkingOut,
+    payWithCard,
+    payingWithCard,
+    cardError,
+  } = useCart();
 
   function categoryCount(category: string) {
     if (category === "All") return products.length;
@@ -255,6 +265,9 @@ export function ProductCatalog({ products }: { products: Product[] }) {
         onUpdateQty={updateQty}
         onCheckout={handleCheckout}
         checkingOut={checkingOut}
+        onPayWithCard={payWithCard}
+        payingWithCard={payingWithCard}
+        cardError={cardError}
       />
     </div>
   );
