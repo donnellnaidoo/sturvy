@@ -9,6 +9,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const HERO_VIDEO_SRC = "/videos/interpolated-2x-kleenkicks-hero-split.mp4";
+
 export function ScrollSplitHero() {
   const trackRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -24,11 +26,13 @@ export function ScrollSplitHero() {
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
     if (reduceMotion) {
+      video.src = HERO_VIDEO_SRC;
       video.pause();
       return;
     }
 
     if (coarsePointer) {
+      video.src = HERO_VIDEO_SRC;
       video.loop = true;
       video.play().catch(() => {});
       return;
@@ -37,6 +41,9 @@ export function ScrollSplitHero() {
     video.pause();
 
     let tween: gsap.core.Tween | undefined;
+    let cancelled = false;
+    let objectUrl: string | undefined;
+
     const start = () => {
       tween = gsap.to(video, {
         currentTime: video.duration,
@@ -50,16 +57,39 @@ export function ScrollSplitHero() {
       });
     };
 
-    if (video.readyState >= 1) {
-      start();
-    } else {
-      video.addEventListener("loadedmetadata", start, { once: true });
-    }
+    const armWhenReady = () => {
+      if (video.readyState >= 1) {
+        start();
+      } else {
+        video.addEventListener("loadedmetadata", start, { once: true });
+      }
+    };
+
+    // Scrubbing seeks around the whole clip as the user scrolls. If the
+    // video is still streaming, seeking ahead of the buffered range stalls
+    // playback until that chunk downloads — which reads as the scrub being
+    // "stuck". Pull the whole file into memory first so every seek during
+    // scroll resolves instantly, with no network dependency.
+    fetch(HERO_VIDEO_SRC)
+      .then((res) => res.blob())
+      .then((blob) => {
+        if (cancelled) return;
+        objectUrl = URL.createObjectURL(blob);
+        video.src = objectUrl;
+        armWhenReady();
+      })
+      .catch(() => {
+        if (cancelled) return;
+        video.src = HERO_VIDEO_SRC;
+        armWhenReady();
+      });
 
     return () => {
+      cancelled = true;
       video.removeEventListener("loadedmetadata", start);
       tween?.scrollTrigger?.kill();
       tween?.kill();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, []);
 
@@ -72,7 +102,6 @@ export function ScrollSplitHero() {
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          src="/videos/interpolated-2x-kleenkicks-hero-split.mp4"
           poster="/videos/kleenkicks-hero-poster.jpg"
           muted
           playsInline

@@ -208,7 +208,7 @@ export default function Home() {
 
           <div className="col-start-2 row-span-3 row-start-1 flex items-center justify-center">
             <div className="aspect-square w-[460px] bg-canvas">
-              <SneakerViewer className="h-full w-full" />
+              <SneakerViewer className="h-full w-full" variant="desktop" />
             </div>
           </div>
 
@@ -226,7 +226,7 @@ export default function Home() {
         {/* Mobile / tablet: model up top, steps stacked below */}
         <div className="mt-12 xl:hidden">
           <div className="mx-auto aspect-square w-full max-w-sm bg-canvas">
-            <SneakerViewer className="h-full w-full" />
+            <SneakerViewer className="h-full w-full" variant="mobile" />
           </div>
           <p className="mt-3 text-center text-xs text-mute">Drag to rotate.</p>
           <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">

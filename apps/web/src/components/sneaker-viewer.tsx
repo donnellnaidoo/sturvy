@@ -1,17 +1,57 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export function SneakerViewer({ className }: { className?: string }) {
+type SneakerViewerProps = {
+  className?: string;
+  /** Which breakpoint's layout this instance renders in — only the
+   * instance matching the current viewport actually loads the model, so
+   * the desktop and mobile layouts don't both fetch the GLB at once. */
+  variant: "desktop" | "mobile";
+};
+
+export function SneakerViewer({ className, variant }: SneakerViewerProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
-    import("@google/model-viewer").then(() => setReady(true));
-  }, []);
+    const mql = window.matchMedia("(min-width: 1280px)");
+    const update = () => {
+      const isDesktop = mql.matches;
+      setActive(variant === "desktop" ? isDesktop : !isDesktop);
+    };
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, [variant]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!active || !el) return;
+
+    let cancelled = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        import("@google/model-viewer").then(() => {
+          if (!cancelled) setReady(true);
+        });
+      },
+      { rootMargin: "600px" }
+    );
+    observer.observe(el);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+    };
+  }, [active]);
 
   return (
-    <div className={className}>
-      {ready ? (
+    <div ref={containerRef} className={className}>
+      {active && ready ? (
         <model-viewer
           src="/models/nike-air-force-1-white.glb"
           ios-src="/models/nike-air-force-1-white.usdz"
